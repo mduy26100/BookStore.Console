@@ -1,0 +1,17 @@
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Infrastructure\bin\Debug\net8.0\BookStore.Infrastructure.deps.json
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Infrastructure\bin\Debug\net8.0\BookStore.Infrastructure.dll
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Infrastructure\bin\Debug\net8.0\BookStore.Infrastructure.pdb
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Infrastructure\bin\Debug\net8.0\BookStore.Application.dll
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Infrastructure\bin\Debug\net8.0\BookStore.Domain.dll
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Infrastructure\bin\Debug\net8.0\BookStore.Application.pdb
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Infrastructure\bin\Debug\net8.0\BookStore.Domain.pdb
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Infrastructure\obj\Debug\net8.0\BookStore.Infrastructure.csproj.AssemblyReference.cache
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Infrastructure\obj\Debug\net8.0\BookStore.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Infrastructure\obj\Debug\net8.0\BookStore.Infrastructure.AssemblyInfoInputs.cache
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Infrastructure\obj\Debug\net8.0\BookStore.Infrastructure.AssemblyInfo.cs
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Infrastructure\obj\Debug\net8.0\BookStore.Infrastructure.csproj.CoreCompileInputs.cache
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Infrastructure\obj\Debug\net8.0\BookStore.Infrastructure.dll
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Infrastructure\obj\Debug\net8.0\refint\BookStore.Infrastructure.dll
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Infrastructure\obj\Debug\net8.0\BookStore.Infrastructure.pdb
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Infrastructure\obj\Debug\net8.0\ref\BookStore.Infrastructure.dll
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Infrastructure\obj\Debug\net8.0\BookStor.0723F12B.Up2Date

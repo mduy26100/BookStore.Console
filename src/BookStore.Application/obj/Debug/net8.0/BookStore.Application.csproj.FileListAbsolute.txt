@@ -1,0 +1,15 @@
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Application\bin\Debug\net8.0\BookStore.Application.deps.json
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Application\bin\Debug\net8.0\BookStore.Application.dll
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Application\bin\Debug\net8.0\BookStore.Application.pdb
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Application\bin\Debug\net8.0\BookStore.Domain.dll
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Application\bin\Debug\net8.0\BookStore.Domain.pdb
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Application\obj\Debug\net8.0\BookStore.Application.csproj.AssemblyReference.cache
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Application\obj\Debug\net8.0\BookStore.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Application\obj\Debug\net8.0\BookStore.Application.AssemblyInfoInputs.cache
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Application\obj\Debug\net8.0\BookStore.Application.AssemblyInfo.cs
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Application\obj\Debug\net8.0\BookStore.Application.csproj.CoreCompileInputs.cache
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Application\obj\Debug\net8.0\BookStore.Application.dll
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Application\obj\Debug\net8.0\refint\BookStore.Application.dll
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Application\obj\Debug\net8.0\BookStore.Application.pdb
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Application\obj\Debug\net8.0\ref\BookStore.Application.dll
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Application\obj\Debug\net8.0\BookStor.D70AE061.Up2Date
