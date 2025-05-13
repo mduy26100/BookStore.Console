@@ -15,3 +15,4 @@ C:\ProjectQLBS\Project\BookStore\src\BookStore.Infrastructure\obj\Debug\net8.0\r
 C:\ProjectQLBS\Project\BookStore\src\BookStore.Infrastructure\obj\Debug\net8.0\BookStore.Infrastructure.pdb
 C:\ProjectQLBS\Project\BookStore\src\BookStore.Infrastructure\obj\Debug\net8.0\ref\BookStore.Infrastructure.dll
 C:\ProjectQLBS\Project\BookStore\src\BookStore.Infrastructure\obj\Debug\net8.0\BookStor.0723F12B.Up2Date
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Infrastructure\obj\Debug\net8.0\BookStore.Infrastructure.sourcelink.json

@@ -24,5 +24,6 @@ namespace BookStore.Application.Interfaces.Repositories
         Task<IEnumerable<Book>> GetBooksByCategoryAsync(int categoryId);
         Task<bool> CheckAndLockStockAsync(int bookId, int quantity);
         Task UpdateStockAfterPurchaseAsync(int bookId, int quantity);
+        Task<Book> GetByIdForUpdateAsync(int bookId);
     }
 }

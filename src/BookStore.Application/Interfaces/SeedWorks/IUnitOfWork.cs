@@ -1,4 +1,5 @@
 ﻿using BookStore.Application.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore.Storage;
 
 
 namespace BookStore.Application.Interfaces.SeedWorks
@@ -13,5 +14,6 @@ namespace BookStore.Application.Interfaces.SeedWorks
         IReportRepository ReportRepository { get; }
         IShoppingCartRepository ShoppingCartRepository { get; }
         Task<int> SaveChange();
+        Task<IDbContextTransaction> BeginTransactionAsync();
     }
 }

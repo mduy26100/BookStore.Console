@@ -427,5 +427,12 @@ namespace BookStore.Infrastructure.Repositories
             book.Stock -= quantity;
             _context.Books.Update(book);
         }
+
+        public async Task<Book> GetByIdForUpdateAsync(int bookId)
+        {
+            return await _context.Books
+                .Where(b => b.BookID == bookId)
+                .FirstOrDefaultAsync(); // Add "FOR UPDATE" equivalent if using raw SQL
+        }
     }
 }

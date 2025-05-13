@@ -16,12 +16,15 @@ namespace BookStore.App.Areas.Identity
         public async void ViewProfile(AccountDto user)
         {
             Console.Clear();
-            Console.WriteLine("=== Your Profile ===");
-            Console.WriteLine($"Name: {user.Name}");
-            Console.WriteLine($"Username: {user.Username}");
-            Console.WriteLine($"Email: {user.Email}");
-            Console.WriteLine($"Phone: {user.PhoneNumber}");
-            Console.WriteLine($"Address: {user.Address}");
+            Console.WriteLine("+" + new string('=', 30) + "+");
+            Console.WriteLine("|          Your Profile          |");
+            Console.WriteLine("+" + new string('=', 30) + "+");
+            Console.WriteLine($"| Name:     {user.Name.PadRight(20)}|");
+            Console.WriteLine($"| Username: {user.Username.PadRight(20)}|");
+            Console.WriteLine($"| Email:    {user.Email.PadRight(20)}|");
+            Console.WriteLine($"| Phone:    {user.PhoneNumber.PadRight(20)}|");
+            Console.WriteLine($"| Address:  {user.Address.PadRight(20)}|");
+            Console.WriteLine("+" + new string('=', 30) + "+");
             await UpdateProfile(user);
         }
 
@@ -60,21 +63,29 @@ namespace BookStore.App.Areas.Identity
 
         public async Task ViewAllAccounts()
         {
-            Console.WriteLine("=== All Accounts ===");
+            Console.Clear();
+            Console.WriteLine("+" + new string('=', 50) + "+");
+            Console.WriteLine("|               All Accounts               |");
+            Console.WriteLine("+" + new string('=', 50) + "+");
 
             var accounts = await _accountService.GetAllAccount();
 
             if (accounts == null || !accounts.Any())
             {
-                Console.WriteLine("No accounts found.");
+                Console.WriteLine("| No accounts found.                      |");
+                Console.WriteLine("+" + new string('=', 50) + "+");
                 return;
             }
-            Console.Clear();
+
+            Console.WriteLine("| ID   | Username       | Name            | Role       |");
+            Console.WriteLine("+" + new string('-', 50) + "+");
 
             foreach (var account in accounts)
             {
-                Console.WriteLine($"ID: {account.AccountID}, Username: {account.Username}, Name: {account.Name}, Role: {account.Role}");
+                Console.WriteLine($"| {account.AccountID,-4} | {account.Username,-14} | {account.Name,-14} | {account.Role,-10} |");
             }
+
+            Console.WriteLine("+" + new string('=', 50) + "+");
         }
 
         public async Task UpdateName(AccountDto user)
@@ -89,11 +100,15 @@ namespace BookStore.App.Areas.Identity
             try
             {
                 await _accountService.UpdateNameAccount(user);
-                Console.WriteLine("Name updated successfully!");
+                Console.WriteLine("+" + new string('=', 30) + "+");
+                Console.WriteLine("| Name updated successfully!             |");
+                Console.WriteLine("+" + new string('=', 30) + "+");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error updating name: {ex.Message}");
+                Console.WriteLine("+" + new string('=', 30) + "+");
+                Console.WriteLine($"| Error updating name: {ex.Message.PadRight(20)}|");
+                Console.WriteLine("+" + new string('=', 30) + "+");
             }
         }
 
@@ -109,11 +124,15 @@ namespace BookStore.App.Areas.Identity
             try
             {
                 await _accountService.UpdatePhoneAccount(user);
-                Console.WriteLine("Phone number updated successfully!");
+                Console.WriteLine("+" + new string('=', 30) + "+");
+                Console.WriteLine("| Phone number updated successfully!           |");
+                Console.WriteLine("+" + new string('=', 30) + "+");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error updating phone number: {ex.Message}");
+                Console.WriteLine("+" + new string('=', 30) + "+");
+                Console.WriteLine($"| Error updating phone number: {ex.Message.PadRight(20)}|");
+                Console.WriteLine("+" + new string('=', 30) + "+");
             }
         }
 
@@ -131,11 +150,15 @@ namespace BookStore.App.Areas.Identity
             try
             {
                 await _accountService.UpdateAddressAccount(user);
-                Console.WriteLine("Address updated successfully!");
+                Console.WriteLine("+" + new string('=', 30) + "+");
+                Console.WriteLine("| Address updated successfully!           |");
+                Console.WriteLine("+" + new string('=', 30) + "+");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error updating address: {ex.Message}");
+                Console.WriteLine("+" + new string('=', 30) + "+");
+                Console.WriteLine($"| Error updating address: {ex.Message.PadRight(20)}|");
+                Console.WriteLine("+" + new string('=', 30) + "+");
             }
         }
 

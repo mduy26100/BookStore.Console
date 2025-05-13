@@ -13,3 +13,4 @@ C:\ProjectQLBS\Project\BookStore\src\BookStore.Application\obj\Debug\net8.0\refi
 C:\ProjectQLBS\Project\BookStore\src\BookStore.Application\obj\Debug\net8.0\BookStore.Application.pdb
 C:\ProjectQLBS\Project\BookStore\src\BookStore.Application\obj\Debug\net8.0\ref\BookStore.Application.dll
 C:\ProjectQLBS\Project\BookStore\src\BookStore.Application\obj\Debug\net8.0\BookStor.D70AE061.Up2Date
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Application\obj\Debug\net8.0\BookStore.Application.sourcelink.json

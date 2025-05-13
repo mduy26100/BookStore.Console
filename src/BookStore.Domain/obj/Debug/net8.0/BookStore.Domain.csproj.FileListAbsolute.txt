@@ -12,3 +12,4 @@ C:\ProjectQLBS\Project\BookStore\src\BookStore.Domain\obj\Debug\net8.0\refint\Bo
 C:\ProjectQLBS\Project\BookStore\src\BookStore.Domain\obj\Debug\net8.0\BookStore.Domain.pdb
 C:\ProjectQLBS\Project\BookStore\src\BookStore.Domain\obj\Debug\net8.0\BookStore.Domain.genruntimeconfig.cache
 C:\ProjectQLBS\Project\BookStore\src\BookStore.Domain\obj\Debug\net8.0\ref\BookStore.Domain.dll
+C:\ProjectQLBS\Project\BookStore\src\BookStore.Domain\obj\Debug\net8.0\BookStore.Domain.sourcelink.json

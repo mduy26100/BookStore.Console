@@ -1,8 +1,6 @@
 ﻿using BookStore.App.Common;
 using BookStore.Application.DTOs;
 using BookStore.Application.Interfaces.Services;
-using System;
-using System.Threading.Tasks;
 
 namespace BookStore.App.Areas.Admin.Views
 {

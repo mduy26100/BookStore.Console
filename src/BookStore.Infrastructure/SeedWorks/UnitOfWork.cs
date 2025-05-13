@@ -2,48 +2,99 @@
 using BookStore.Application.Interfaces.SeedWorks;
 using BookStore.Infrastructure.Data;
 using BookStore.Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace BookStore.Infrastructure.SeedWorks
 {
     public class UnitOfWork : IUnitOfWork
     {
-        public IAccountRepository AccountRepository { get; set; }
-
-        public IBookRepository BookRepository { get; set; }
-
-        public ICategoryRepository CategoryRepository { get; set; }
-
-        public IOrderRepository OrderRepository { get; set; }
-        public IOrderDetailRepository OrderDetailRepository { get; set; }
-
-        public IReportRepository ReportRepository { get; set; }
-
-        public IShoppingCartRepository ShoppingCartRepository {  get; set; }
-
         private readonly ApplicationDbContext _context;
+        private IDbContextTransaction? _currentTransaction;
+
+        public IAccountRepository AccountRepository { get; }
+        public IBookRepository BookRepository { get; }
+        public ICategoryRepository CategoryRepository { get; }
+        public IOrderRepository OrderRepository { get; }
+        public IOrderDetailRepository OrderDetailRepository { get; }
+        public IReportRepository ReportRepository { get; }
+        public IShoppingCartRepository ShoppingCartRepository { get; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
-            _context = context;
-            AccountRepository = new AccountRepository(context);
-            BookRepository = new BookRepository(context);
-            CategoryRepository = new CategoryRepository(context);
-            OrderRepository = new OrderRepository(context);
-            OrderDetailRepository = new OrderDetailRepository(context);
-            ReportRepository = new ReportRepository(context);
-            ShoppingCartRepository = new ShoppingCartRepository(context);
-        }
+            _context = context ?? throw new ArgumentNullException(nameof(context));
 
-        public void Dispose()
-        {
-            _context.Dispose();
+            // Initialize repositories
+            AccountRepository = new AccountRepository(_context);
+            BookRepository = new BookRepository(_context);
+            CategoryRepository = new CategoryRepository(_context);
+            OrderRepository = new OrderRepository(_context);
+            OrderDetailRepository = new OrderDetailRepository(_context);
+            ReportRepository = new ReportRepository(_context);
+            ShoppingCartRepository = new ShoppingCartRepository(_context);
         }
 
         public async Task<int> SaveChange()
         {
             return await _context.SaveChangesAsync();
+        }
+
+        public async Task<IDbContextTransaction> BeginTransactionAsync()
+        {
+            if (_currentTransaction != null)
+            {
+                return _currentTransaction;
+            }
+
+            _currentTransaction = await _context.Database.BeginTransactionAsync();
+            return _currentTransaction;
+        }
+
+        public async Task CommitTransactionAsync()
+        {
+            try
+            {
+                if (_currentTransaction != null)
+                {
+                    await _currentTransaction.CommitAsync();
+                }
+            }
+            catch
+            {
+                await RollbackTransactionAsync();
+                throw;
+            }
+            finally
+            {
+                if (_currentTransaction != null)
+                {
+                    await _currentTransaction.DisposeAsync();
+                    _currentTransaction = null;
+                }
+            }
+        }
+
+        public async Task RollbackTransactionAsync()
+        {
+            try
+            {
+                if (_currentTransaction != null)
+                {
+                    await _currentTransaction.RollbackAsync();
+                }
+            }
+            finally
+            {
+                if (_currentTransaction != null)
+                {
+                    await _currentTransaction.DisposeAsync();
+                    _currentTransaction = null;
+                }
+            }
+        }
+
+        public void Dispose()
+        {
+            _context.Dispose();
         }
     }
 }

@@ -11,16 +11,19 @@ namespace BookStore.App.Areas.Admin
         private readonly IAccountService _accountService;
         private readonly ICategoryService _categoryService;
         private readonly IBookService _bookService;
+        private readonly IOrderService _orderService;
         public int _accountId;
 
         public AdminArea(IAccountService accountService
             , ICategoryService categoryService
             , IBookService bookService
+            , IOrderService orderService
             , AccountDto accountDto)
         {
             _accountService = accountService;
             _categoryService = categoryService;
             _bookService = bookService;
+            _orderService = orderService;
             _accountId = accountDto.AccountID;
         }
 
@@ -29,6 +32,7 @@ namespace BookStore.App.Areas.Admin
             var identity = new IdentityArea(_accountService);
             var categoryManagement = new CategoryManagement(_categoryService);
             var bookManagement = new BookManagement(_bookService, _categoryService, _accountId);
+            var orderManagement = new OrderManagement(_orderService);
 
             while (true)
             {
@@ -40,7 +44,7 @@ namespace BookStore.App.Areas.Admin
                 Console.WriteLine("2. View All Accounts");
                 Console.WriteLine("3. Manage Categories");
                 Console.WriteLine("4. Manage Books");
-                Console.WriteLine("5. Manage Orders (Not implemented)");
+                Console.WriteLine("5. Manage Orders");
                 Console.WriteLine("6. Manage Reports (Not implemented)");
                 Console.WriteLine("0. Logout");
 
@@ -64,6 +68,9 @@ namespace BookStore.App.Areas.Admin
                             break;
                         case "4":
                             await bookManagement.ManageBooks();
+                            break;
+                        case "5":
+                            await orderManagement.ManageOrders();
                             break;
                         case "0":
                             return;

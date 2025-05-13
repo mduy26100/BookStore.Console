@@ -3,20 +3,14 @@ using BookStore.Domain.Entities;
 using BookStore.Infrastructure.Data;
 using BookStore.Infrastructure.SeedWorks;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BookStore.Infrastructure.Repositories
 {
     public class ShoppingCartRepository : Repository<ShoppingCart>, IShoppingCartRepository
     {
-        private readonly ApplicationDbContext _context;
 
         public ShoppingCartRepository(ApplicationDbContext context) : base(context)
         {
-            _context = context;
         }
 
         public async Task AddCart(int accountId, int bookId, int quantity)

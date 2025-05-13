@@ -28,6 +28,7 @@ var host = Host.CreateDefaultBuilder(args)
                     services.AddScoped<ICategoryService, CategoryService>();
                     services.AddScoped<IBookService, BookService>();
                     services.AddScoped<IShoppingCartService, ShoppingCartService>();
+                    services.AddScoped<IOrderService, OrderService>();
 
                     //Mapper
                     services.AddAutoMapper(typeof(MappingProfile));

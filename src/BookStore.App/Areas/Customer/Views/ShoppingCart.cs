@@ -20,6 +20,9 @@ namespace BookStore.App.Areas.Customer.Views
 
         public async Task ManageCart()
         {
+            int currentPage = 1;
+            int pageSize = 5;
+
             while (true)
             {
                 Console.Clear();
@@ -43,19 +46,45 @@ namespace BookStore.App.Areas.Customer.Views
                             continue;
                     }
 
-                    // Display cart items
-                    DisplayCartItems(cart);
+                    int totalItems = cart.Items.Count;
+                    int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
 
-                    Console.WriteLine("\n1. Update Item Quantity");
+                    var paginatedItems = cart.Items
+                        .Skip((currentPage - 1) * pageSize)
+                        .Take(pageSize)
+                        .ToList();
+
+                    DisplayCartItems(new ShoppingCartDto { Items = paginatedItems });
+
+                    Console.WriteLine($"\nPage {currentPage}/{totalPages}");
+                    Console.WriteLine("\nP. Previous Page");
+                    Console.WriteLine("N. Next Page");
+                    Console.WriteLine("G. Go to Page");
+                    Console.WriteLine("1. Update Item Quantity");
                     Console.WriteLine("2. Remove Item");
                     Console.WriteLine("3. Checkout");
                     Console.WriteLine("4. Continue Shopping");
                     Console.WriteLine("0. Back to Main Menu");
 
-                    string option = InputValidator.GetValidMenuChoice("Choose option: ", new[] { "0", "1", "2", "3", "4" });
+                    string option = InputValidator.GetValidMenuChoice("Choose option: ", new[] { "0", "1", "2", "3", "4", "P", "N", "G" });
 
-                    switch (option)
+                    switch (option.ToUpper())
                     {
+                        case "P":
+                            if (currentPage > 1)
+                                currentPage--;
+                            break;
+                        case "N":
+                            if (currentPage < totalPages)
+                                currentPage++;
+                            break;
+                        case "G":
+                            int? pageNumber = InputValidator.GetValidInteger($"Enter page number (1-{totalPages}): ",
+                                page => page >= 1 && page <= totalPages,
+                                $"Please enter a valid page number between 1 and {totalPages}.");
+                            if (pageNumber != null)
+                                currentPage = pageNumber.Value;
+                            break;
                         case "1":
                             await UpdateItemQuantity(cart);
                             break;
@@ -102,7 +131,6 @@ namespace BookStore.App.Areas.Customer.Views
         {
             Console.WriteLine("\n=== Update Item Quantity ===");
 
-            // Display items with index for selection
             for (int i = 0; i < cart.Items.Count; i++)
             {
                 var item = cart.Items[i];
@@ -129,7 +157,6 @@ namespace BookStore.App.Areas.Customer.Views
             if (!newQuantity.HasValue)
                 return;
 
-            // Check if the book has enough stock
             bool inStock = await _bookService.CheckBookInStock(selectedItem.BookID, newQuantity.Value);
 
             if (!inStock)
@@ -146,7 +173,6 @@ namespace BookStore.App.Areas.Customer.Views
         {
             Console.WriteLine("\n=== Remove Item from Cart ===");
 
-            // Display items with index for selection
             for (int i = 0; i < cart.Items.Count; i++)
             {
                 var item = cart.Items[i];
@@ -173,7 +199,6 @@ namespace BookStore.App.Areas.Customer.Views
             Console.Clear();
             Console.WriteLine("=== Checkout ===");
 
-            // Verify stock for all items before proceeding
             List<CartItemDto> outOfStockItems = new List<CartItemDto>();
 
             foreach (var item in cart.Items)
@@ -199,7 +224,6 @@ namespace BookStore.App.Areas.Customer.Views
                 return;
             }
 
-            // Choose shipping information
             Console.WriteLine("1. Use my account information");
             Console.WriteLine("2. Enter new shipping information");
             Console.WriteLine("0. Cancel checkout");
@@ -219,7 +243,6 @@ namespace BookStore.App.Areas.Customer.Views
 
             if (choice == "2")
             {
-                // Enter new shipping information
                 Console.WriteLine("\n=== Enter Shipping Information ===");
 
                 string name = InputValidator.GetNonEmptyString("Enter your name: ");
@@ -240,7 +263,6 @@ namespace BookStore.App.Areas.Customer.Views
                 order.CustomerAddress = address;
             }
 
-            // Confirm order
             Console.WriteLine("\n=== Order Summary ===");
             DisplayCartItems(cart);
             Console.WriteLine("\nAre you sure you want to place this order?");

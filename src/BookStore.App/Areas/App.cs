@@ -13,16 +13,19 @@ namespace BookStore.App.Areas
         private readonly ICategoryService _categoryService;
         private readonly IBookService _bookService;
         private readonly IShoppingCartService _shoppingCartService;
+        private readonly IOrderService _orderService;
 
         public App(IAccountService accountService
             , ICategoryService categoryService
             , IBookService bookService
-            , IShoppingCartService shoppingCartService)
+            , IShoppingCartService shoppingCartService
+            , IOrderService orderService)
         {
             _accountService = accountService;
             _categoryService = categoryService;
             _bookService = bookService;
             _shoppingCartService = shoppingCartService;
+            _orderService = orderService;
         }
 
         public async Task Run()
@@ -72,7 +75,7 @@ namespace BookStore.App.Areas
             string username = InputValidator.GetNonEmptyString("Username: ");
             if (username == null) return;
 
-            string password = InputValidator.GetNonEmptyString("Password: ");
+            string password = InputValidator.GetValidHiddenPassword("Password: ");
             if (password == null) return;
 
             var loginDto = new AccountDto
@@ -101,12 +104,12 @@ namespace BookStore.App.Areas
 
                 if (user.Role == SD.Role_Admin)
                 {
-                    var adminDashboard = new AdminArea(_accountService, _categoryService, _bookService, user);
+                    var adminDashboard = new AdminArea(_accountService, _categoryService, _bookService, _orderService, user);
                     await adminDashboard.AdminDashboard(user);
                 }
                 else
                 {
-                    var customerDashboard = new CustomerArea(_accountService, _categoryService, _bookService, _shoppingCartService, user);
+                    var customerDashboard = new CustomerArea(_accountService, _categoryService, _bookService, _shoppingCartService, _orderService, user);
                     await customerDashboard.CustomerDashboard(user);
                 }
             }
@@ -121,23 +124,21 @@ namespace BookStore.App.Areas
             Console.Clear();
             Console.WriteLine("=== Register ===");
 
-            // Check username uniqueness
             string username = await InputValidator.GetUniqueUsername("Username: ",
                 async (usernameToCheck) => {
                     try
                     {
                         var existingAccounts = await _accountService.CheckUsernameExists(usernameToCheck);
-                        return !existingAccounts; // Return true if username is unique (doesn't exist)
+                        return !existingAccounts;
                     }
                     catch
                     {
-                        return false; // On error, assume username is not unique to be safe
+                        return false;
                     }
                 });
 
             if (username == null) return;
 
-            // Get password with confirmation
             string password = InputValidator.GetPasswordWithConfirmation(
                 "Password: ",
                 "Confirm password: ",
@@ -147,21 +148,17 @@ namespace BookStore.App.Areas
 
             if (password == null) return;
 
-            // Get name with validation
             string name = InputValidator.GetNonEmptyString("Name: ");
             if (name == null) return;
 
-            // Get email with validation
             string email = InputValidator.GetValidEmail("Email: ");
             if (email == null) return;
 
-            // Get phone with validation
             string phone = InputValidator.GetValidPhoneNumber("Phone: ");
             if (phone == null) return;
 
-            // Get address (optional)
             string address = InputValidator.GetValidString("Address: ",
-                input => true, // Address can be any string, including empty
+                input => true,
                 "Invalid address format.");
             if (address == null) return;
 

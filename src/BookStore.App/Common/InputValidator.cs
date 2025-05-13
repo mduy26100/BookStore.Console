@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace BookStore.App.Common
 {
@@ -62,6 +61,47 @@ namespace BookStore.App.Common
             );
         }
 
+        public static string GetHiddenPassword(string prompt)
+        {
+            Console.Write(prompt);
+            string password = string.Empty;
+            ConsoleKey key;
+
+            do
+            {
+                var keyInfo = Console.ReadKey(intercept: true);
+                key = keyInfo.Key;
+
+                if (key == ConsoleKey.Backspace && password.Length > 0)
+                {
+                    password = password[..^1];
+                    Console.Write("\b \b"); // xóa ký tự cuối
+                }
+                else if (!char.IsControl(keyInfo.KeyChar))
+                {
+                    password += keyInfo.KeyChar;
+                    Console.Write("*"); // hiện dấu *
+                }
+            } while (key != ConsoleKey.Enter);
+
+            Console.WriteLine();
+            return password;
+        }
+
+        public static string GetValidHiddenPassword(string prompt)
+        {
+            while (true)
+            {
+                string password = GetHiddenPassword(prompt);
+                if (string.IsNullOrWhiteSpace(password))
+                {
+                    Console.WriteLine("Input cannot be empty.");
+                    continue;
+                }
+                return password;
+            }
+        }
+
         public static string GetValidEmail(string prompt)
         {
             return GetValidString(
@@ -89,15 +129,17 @@ namespace BookStore.App.Common
             );
         }
 
-        public static string GetPasswordWithConfirmation(string prompt, string confirmPrompt,
-            Func<string, bool> validationFunc, string errorMessage)
+        public static string GetPasswordWithConfirmation(
+        string prompt,
+        string confirmPrompt,
+        Func<string, bool> validationFunc,
+        string errorMessage)
         {
             int attempts = 0;
 
             while (attempts < MaxRetries)
             {
-                Console.Write(prompt);
-                string password = Console.ReadLine() ?? string.Empty;
+                string password = GetHiddenPassword(prompt);
 
                 if (!validationFunc(password))
                 {
@@ -107,8 +149,7 @@ namespace BookStore.App.Common
                     continue;
                 }
 
-                Console.Write(confirmPrompt);
-                string confirmPassword = Console.ReadLine() ?? string.Empty;
+                string confirmPassword = GetHiddenPassword(confirmPrompt);
 
                 if (password == confirmPassword)
                 {
@@ -241,6 +282,29 @@ namespace BookStore.App.Common
             }
 
             return false;
+        }
+
+        public static DateTime? GetValidDate(string prompt, string errorMessage)
+        {
+            int attempts = 0;
+
+            while (attempts < MaxRetries)
+            {
+                Console.Write(prompt);
+                string input = Console.ReadLine() ?? string.Empty;
+
+                if (DateTime.TryParseExact(input, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out DateTime result))
+                {
+                    return result;
+                }
+
+                attempts++;
+                Console.WriteLine(errorMessage);
+                Console.WriteLine($"Attempts remaining: {MaxRetries - attempts}");
+            }
+
+            Console.WriteLine("Maximum retry attempts exceeded. Returning to previous menu.");
+            return null;
         }
     }
 }

@@ -119,6 +119,7 @@ namespace BookStore.Application.Services
 
         public async Task<bool> CheckOutShoppingCart(int accountId, OrderDto orderDto)
         {
+            using var transaction = await _unitOfWork.BeginTransactionAsync();
             try
             {
                 var cartItems = await _unitOfWork.ShoppingCartRepository.GetAllCart(accountId);
@@ -130,11 +131,19 @@ namespace BookStore.Application.Services
 
                 foreach (var item in cartItems)
                 {
-                    var book = await _unitOfWork.BookRepository.GetByIdAsync(item.BookID);
-                    if (book == null || book.Stock < item.Quantity)
+                    var book = await _unitOfWork.BookRepository.GetByIdForUpdateAsync(item.BookID);
+                    if (book == null)
                     {
-                        throw new Exception($"Not enough stock for book: {book?.Title ?? "Unknown"}");
+                        throw new Exception($"Book not found: {item.BookID}");
                     }
+
+                    if (book.Stock < item.Quantity)
+                    {
+                        throw new Exception($"Not enough stock for book: {book.Title}. Available: {book.Stock}, Requested: {item.Quantity}");
+                    }
+
+                    book.Stock -= item.Quantity;
+                    await _unitOfWork.BookRepository.UpdateStock(book);
                 }
 
                 var order = new Order
@@ -171,10 +180,12 @@ namespace BookStore.Application.Services
                 await _unitOfWork.ShoppingCartRepository.ClearCart(accountId);
                 await _unitOfWork.SaveChange();
 
+                await transaction.CommitAsync();
                 return true;
             }
             catch (Exception)
             {
+                await transaction.RollbackAsync(); 
                 throw;
             }
         }
