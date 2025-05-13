@@ -75,12 +75,12 @@ namespace BookStore.App.Common
                 if (key == ConsoleKey.Backspace && password.Length > 0)
                 {
                     password = password[..^1];
-                    Console.Write("\b \b"); // xóa ký tự cuối
+                    Console.Write("\b \b");
                 }
                 else if (!char.IsControl(keyInfo.KeyChar))
                 {
                     password += keyInfo.KeyChar;
-                    Console.Write("*"); // hiện dấu *
+                    Console.Write("*");
                 }
             } while (key != ConsoleKey.Enter);
 

@@ -56,7 +56,6 @@ namespace BookStore.Application.Services
 
             try
             {
-                // First find the account by username since we might not have the ID after login
                 var accounts = await _unitOfWork.AccountRepository.FindAsync(a =>
                     a.Username == accountDto.Username && a.Password == accountDto.Password);
 
@@ -100,7 +99,6 @@ namespace BookStore.Application.Services
 
             try
             {
-                // Check if username already exists
                 var existingAccounts = await _unitOfWork.AccountRepository.FindAsync(a => a.Username == accountCreate.Username);
                 if (existingAccounts.Any())
                     throw new Exception("Username already exists");
@@ -174,7 +172,6 @@ namespace BookStore.Application.Services
             }
         }
 
-        // New methods for enhanced business logic
 
         /// <summary>
         /// Checks if a username already exists
@@ -212,7 +209,6 @@ namespace BookStore.Application.Services
 
             try
             {
-                // If we have the account ID, use it for verification
                 if (accountDto.AccountID > 0)
                 {
                     var account = await _unitOfWork.AccountRepository.GetByIdAsync(accountDto.AccountID);
@@ -221,7 +217,6 @@ namespace BookStore.Application.Services
 
                     return account.Password == accountDto.Password;
                 }
-                // Otherwise use username and password
                 else if (!string.IsNullOrWhiteSpace(accountDto.Username))
                 {
                     return await _unitOfWork.AccountRepository.Login(_mapper.Map<Account>(accountDto));

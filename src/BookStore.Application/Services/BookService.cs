@@ -100,7 +100,6 @@ namespace BookStore.Application.Services
 
             try
             {
-                // Check if book with same title and author already exists
                 bool exists = await _unitOfWork.BookRepository.BookExistsAsync(bookDto.Title, bookDto.Author);
                 if (exists)
                 {
@@ -160,7 +159,6 @@ namespace BookStore.Application.Services
 
                 var reportDtos = _mapper.Map<List<ReportDto>>(book.Reports);
 
-                // Populate customer names from the Order's Account
                 foreach (var report in reportDtos)
                 {
                     var reportEntity = book.Reports.FirstOrDefault(r => r.ReportID == report.ReportID);
@@ -197,13 +195,11 @@ namespace BookStore.Application.Services
 
                 var bookDto = _mapper.Map<BookDto>(book);
 
-                // Get reports separately
                 var bookWithReports = await _unitOfWork.BookRepository.GetBookWithReports(bookId);
                 if (bookWithReports != null && bookWithReports.Reports != null)
                 {
                     bookDto.Reports = _mapper.Map<List<ReportDto>>(bookWithReports.Reports);
 
-                    // Populate customer names
                     foreach (var report in bookDto.Reports)
                     {
                         var reportEntity = bookWithReports.Reports.FirstOrDefault(r => r.ReportID == report.ReportID);

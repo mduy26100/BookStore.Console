@@ -49,33 +49,28 @@ namespace BookStore.Infrastructure.Repositories
 
             try
             {
-                // Check if the book exists
                 var book = await _context.Books.FindAsync(bookId);
                 if (book == null)
                 {
                     throw new Exception($"Book with ID {bookId} not found");
                 }
 
-                // Check if the account exists
                 var account = await _context.Accounts.FindAsync(accountId);
                 if (account == null)
                 {
                     throw new Exception($"Account with ID {accountId} not found");
                 }
 
-                // Check if there's already a cart item for this book and account
                 var existingCartItem = await _context.ShoppingCarts
                     .FirstOrDefaultAsync(sc => sc.AccountID == accountId && sc.BookID == bookId);
 
                 if (existingCartItem != null)
                 {
-                    // Update existing cart item
                     existingCartItem.Quantity += quantity;
                     _context.ShoppingCarts.Update(existingCartItem);
                 }
                 else
                 {
-                    // Create new cart item
                     var cartItem = new ShoppingCart
                     {
                         AccountID = accountId,
@@ -396,7 +391,6 @@ namespace BookStore.Infrastructure.Repositories
 
         public async Task<bool> CheckAndLockStockAsync(int bookId, int quantity)
         {
-            // Use transaction with pessimistic locking to prevent concurrency issues
             var book = await _context.Books
                 .FromSqlRaw("SELECT * FROM Books WITH (UPDLOCK, ROWLOCK) WHERE BookID = {0}", bookId)
                 .FirstOrDefaultAsync();
@@ -411,7 +405,6 @@ namespace BookStore.Infrastructure.Repositories
 
         public async Task UpdateStockAfterPurchaseAsync(int bookId, int quantity)
         {
-            // The book should already be locked by CheckAndLockStockAsync
             var book = await _context.Books.FindAsync(bookId);
 
             if (book == null)
@@ -432,7 +425,7 @@ namespace BookStore.Infrastructure.Repositories
         {
             return await _context.Books
                 .Where(b => b.BookID == bookId)
-                .FirstOrDefaultAsync(); // Add "FOR UPDATE" equivalent if using raw SQL
+                .FirstOrDefaultAsync();
         }
     }
 }

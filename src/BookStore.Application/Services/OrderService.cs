@@ -53,7 +53,7 @@ namespace BookStore.Application.Services
                     throw new Exception("Order not found");
                 }
 
-                return _mapper.Map<List<OrderDto>>(list); // Đúng: ánh xạ List<Order> sang List<OrderDto>
+                return _mapper.Map<List<OrderDto>>(list);
             }
             catch (Exception)
             {

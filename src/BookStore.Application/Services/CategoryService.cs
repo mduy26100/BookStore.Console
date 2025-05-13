@@ -27,7 +27,6 @@ namespace BookStore.Application.Services
 
             try
             {
-                // Check if category with the same name already exists
                 bool exists = await _unitOfWork.CategoryRepository.CategoryExists(categoryDto.Name);
                 if (exists)
                 {

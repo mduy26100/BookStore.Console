@@ -72,7 +72,6 @@ namespace BookStore.Infrastructure.Repositories
                     throw new Exception($"Category with ID {category.CategoryID} not found");
                 }
 
-                // Check if the new name already exists (excluding the current category)
                 bool nameExists = await _context.Categories
                     .AnyAsync(c => c.Name.ToLower() == category.Name.ToLower() && c.CategoryID != category.CategoryID);
 

@@ -23,7 +23,6 @@ namespace BookStore.Infrastructure.SeedWorks
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
 
-            // Initialize repositories
             AccountRepository = new AccountRepository(_context);
             BookRepository = new BookRepository(_context);
             CategoryRepository = new CategoryRepository(_context);
@@ -47,30 +46,6 @@ namespace BookStore.Infrastructure.SeedWorks
 
             _currentTransaction = await _context.Database.BeginTransactionAsync();
             return _currentTransaction;
-        }
-
-        public async Task CommitTransactionAsync()
-        {
-            try
-            {
-                if (_currentTransaction != null)
-                {
-                    await _currentTransaction.CommitAsync();
-                }
-            }
-            catch
-            {
-                await RollbackTransactionAsync();
-                throw;
-            }
-            finally
-            {
-                if (_currentTransaction != null)
-                {
-                    await _currentTransaction.DisposeAsync();
-                    _currentTransaction = null;
-                }
-            }
         }
 
         public async Task RollbackTransactionAsync()
